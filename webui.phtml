@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Zend Tool Web UI</title>
+<style type="text/css">
+* {
+font-family:Arial;
+}
+
+fieldset {
+width:400px;
+margin:0 auto;
+}
+
+form p {
+overflow:hidden;
+clear:both;
+}
+
+form label {
+float:left;
+width:150px;
+text-align:right;
+padding:0 4px;
+}
+
+form input {
+padding:2px 4px;
+}
+
+h3 {
+border-bottom:2px solid #CCC;
+}
+
+div.buttons {
+padding:5px;
+text-align:center;
+background:#EEE;
+}
+</style>
+</head>
+<body>
+<fieldset>
+<legend>Zend Tool</legend>
+<?php if ($response->isException()): ?>
+<p><?php echo $response->getException(); ?></p>
+<?php endif; ?>
+<form id="zendToolForm" name="zendToolForm" method="post" action="">
+<h3>功能</h3>
+<div>
+<label for="provider">執行對象</label>
+<select name="provider" id="provider">
+<option value="">請選擇</option>
+</select>
+</div>
+<div>
+<label for="action">執行動作</label>
+<select name="action" id="action">
+<option value="Show">請選擇</option>
+</select>
+</div>
+<h3>選項</h3>
+<div id="parameterInfo">
+</div>
+<div class="buttons">
+<input type="submit" name="run" id="run" value="送出" />
+</div>
+</form>
+</fieldset>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://github.com/SamWM/jQuery-Plugins/raw/master/selectboxes/jquery.selectboxes.min.js"></script>
+<script type="text/javascript">
+$(function () {
+    var providers = <?php echo json_encode(array_combine(array_keys($options), array_keys($options))); ?>;
+    var providerActions = <?php echo json_encode($options); ?>;
+$('#provider').addOption(providers, false).change(function () {
+    var actions = providerActions[$(this).val()].actions;
+    $('#action').removeOption(/^.+/i).addOption(actions, false).trigger('change');
+});
+$('#action').change(function () {
+    var providerName = $('#provider').val();
+    var methodName = $(this).val();
+    var parameters = providerActions[providerName].parameters[methodName];
+    var html = '';
+    for(var i in parameters) {
+        var attrs = parameters[i];
+        var fieldId = String(providerName + '-' + methodName + i).toLowerCase();
+        html += '<p';
+        if (null !== attrs.description) {
+            html += ' title="' + attrs.description + '"';
+        }
+        html += '><label for="' + fieldId + '">' + i + '</label>';
+        html += '<input id="' + fieldId + '" name="' + attrs.name + '"';
+        switch (attrs.type) {
+            case 'bool':
+            case 'boolean':
+                html += ' type="checkbox"';
+                if (!!attrs['default']) {
+                    html += ' checked="checked"';
+                }
+                break;
+            case 'string':
+            default:
+                html += ' type="text"';
+                if (!!attrs['default']) {
+                    html += ' value="' + attrs['default'] + '"';
+                }
+                break;
+            }
+            html += ' /></p>'
+        }
+        $('#parameterInfo').html(html);
+    });
+});
+
+</script>
+</body>
+</html>
