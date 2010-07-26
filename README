@@ -1,1 +1,7 @@
-The Web UI for Zend_Tool
+The Web UI for Zend_Tool - Alpha 1
+
+1. 輸入「專案路徑」
+2. 選擇「執行對象」與「執行動作」
+3. 設定「選項」
+4. 按下「執行」
+5. 查看「執行結果」

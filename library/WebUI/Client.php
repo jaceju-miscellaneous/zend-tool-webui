@@ -20,7 +20,7 @@ class WebUI_Client extends Zend_Tool_Framework_Client_Abstract
 
         // which classes are essential to initializing Zend_Tool_Framework_Client_Console
         $classesToLoad = array(
-            'Zend_Tool_Framework_System_Manifest',
+            // 'Zend_Tool_Framework_System_Manifest',
             'Zend_Tool_Project_Provider_Manifest',
             );
 

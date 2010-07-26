@@ -1,0 +1,43 @@
+* {
+font-family:Arial;
+}
+
+fieldset {
+width:500px;
+margin:0 auto;
+}
+
+#toolInfo {
+width:90%;
+margin:0 auto;
+margin-top:10px;
+padding:10px;
+background:#EEE;
+border:1px solid #CCC;
+}
+
+form p {
+overflow:hidden;
+clear:both;
+}
+
+form label {
+float:left;
+width:150px;
+text-align:right;
+padding:0 4px;
+}
+
+form input {
+padding:2px 4px;
+}
+
+h3 {
+border-bottom:2px solid #CCC;
+}
+
+div.buttons {
+padding:5px;
+text-align:center;
+background:#EEE;
+}

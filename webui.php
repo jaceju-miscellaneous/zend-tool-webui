@@ -21,12 +21,51 @@ $registry->setClient($client);
 
 $httpRequest = new Zend_Controller_Request_Http();
 
+$projectPath = ROOT_PATH;
+
 if ($httpRequest->isPost()) {
+    $postData = $httpRequest->getPost();
+
+    $projectPath = realpath($postData['projectPath']);
+    if (is_writable($projectPath)) {
+        chdir($projectPath);
+    } else {
+        die("Can't change directory to '$projectPath'.");
+    }
+    unset($postData['projectPath']);
+
+    $providerName = $postData['provider'];
+    $actions = (array) explode('.', $postData['action']);
+    $actionName = $actions[0];
+    if (isset($actions[1])) {
+        $specialtyName = $actions[1];
+    } else {
+        $specialtyName = '_Global';
+    }
+    unset($postData['provider']);
+    unset($postData['action']);
+
     $request = $registry->getRequest();
-    $request->setActionName('Show');
-    $request->setProviderName('Phpinfo');
-    $request->setSpecialtyName('_Global');
+    $request->setActionName($actionName);
+    $request->setProviderName($providerName);
+    $request->setSpecialtyName($specialtyName);
+    foreach ($postData as $parameterName => $parameterValue) {
+        $request->setProviderParameter($parameterName, $parameterValue);
+    }
+
+    $response = $registry->getResponse();
+    $separator = new Zend_Tool_Framework_Client_Response_ContentDecorator_Separator();
+    $separator->setSeparator("\n");
+    $response->addContentDecorator($separator)
+            ->setDefaultDecoratorOptions(array('separator' => true));
+
     $client->dispatch();
+
+    if ($response->isException()) {
+        echo $response->getException()->getMessage();
+    } else {
+        echo $response->getContent();
+    }
 } else {
     $request = $registry->getRequest();
     $request->setDispatchable(false);
