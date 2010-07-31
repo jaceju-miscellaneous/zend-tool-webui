@@ -12,33 +12,33 @@
 <p><?php echo $response->getException(); ?></p>
 <?php endif; ?>
 <form id="zendToolForm" name="zendToolForm" method="post" action="">
-<h3>專案路徑</h3>
+<h3>Path of Project</h3>
 <div>
-<label for="projectPath">專案路徑</label><input type="text" name="projectPath" id="projectPath" value="<?php echo $projectPath; ?>" />
+<label for="projectPath">Path</label><input type="text" name="projectPath" id="projectPath" value="<?php echo $projectPath; ?>" />
 </div>
-<h3>功能</h3>
+<h3>Function</h3>
 <div>
-<label for="provider">執行對象</label>
+<label for="provider">Provider</label>
 <select name="provider" id="provider">
-<option value="">請選擇</option>
+<option value="">Please Select...</option>
 </select>
 </div>
 <div>
-<label for="action">執行動作</label>
+<label for="action">Action</label>
 <select name="action" id="action">
-<option value="Show">請選擇</option>
+<option value="Show">Please Select...</option>
 </select>
 </div>
-<h3>選項</h3>
+<h3>Options</h3>
 <div id="parameterInfo">
 </div>
 <div class="buttons">
-<input type="submit" id="run" value="執行" />
+<input type="submit" id="run" value="Execute" />
 </div>
 </form>
 </fieldset>
 <div id="toolInfo">
-<h3>執行結果</h3>
+<h3>Result</h3>
 <pre></pre>
 </div>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
